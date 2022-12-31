@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'store',
     # tag app
     'tag',
+    # like app
+    'like',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
