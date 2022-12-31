@@ -12,16 +12,17 @@ class Product(models.Model):
 
     id = models.UUIDField(default=uuid4, primary_key=True,
                           editable=False, unique=True, verbose_name='شناسه')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
-    updated = models.DateField(auto_now=True , verbose_name='به روز رسانی شده')
-    title = models.CharField(max_length=255, unique=True , verbose_name='عنوان')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    updated = models.DateField(auto_now=True, verbose_name='به روز رسانی شده')
+    title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیاحات')
-    slug = models.SlugField(max_length=255, unique=True , verbose_name='نامک')
-    price = models.DecimalField(max_digits=6, decimal_places=2 , verbose_name='قیمت واحد')
+    slug = models.SlugField(max_length=255, unique=True, verbose_name='نامک')
+    price = models.DecimalField(
+        max_digits=6, decimal_places=2, verbose_name='قیمت واحد')
     collection = models.ForeignKey(
-        'Collection', on_delete=models.CASCADE, related_name='collection_item' , verbose_name='مجموعه')
+        'Collection', on_delete=models.CASCADE, related_name='collection_item', verbose_name='مجموعه')
     promotion = models.ManyToManyField(
-        'Promotion', related_name='promotion_item'  , verbose_name='تبلیغات')
+        'Promotion', related_name='promotion_item', verbose_name='تبلیغات')
 
     def __str__(self):
         return self.title
@@ -44,15 +45,17 @@ class Customer(models.Model):
     ]
 
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True , verbose_name='شناسه')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
-    first_name = models.CharField(max_length=25 , verbose_name='نام')
-    last_name = models.CharField(max_length=25 , verbose_name='نام خوانوادگی')
-    email = models.EmailField(unique=True , verbose_name='ایمیل')
-    phone = PhoneNumberField(unique=True, help_text='لطفا شماره همراه خود را وارد کنید' , verbose_name='شماره همراه')
-    birthday = models.DateField(default=datetime.now, editable=True , verbose_name='تاریخ تولد')
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    first_name = models.CharField(max_length=25, verbose_name='نام')
+    last_name = models.CharField(max_length=25, verbose_name='نام خوانوادگی')
+    email = models.EmailField(unique=True, verbose_name='ایمیل')
+    phone = PhoneNumberField(
+        unique=True, help_text='لطفا شماره همراه خود را وارد کنید', verbose_name='شماره همراه')
+    birthday = models.DateField(
+        default=datetime.now, editable=True, verbose_name='تاریخ تولد')
     membership = models.CharField(
-        max_length=5, default=MEMBERSHIP_BRONZE, choices=MEMBERSHIP_CHOICE , verbose_name='نوع عضویت')
+        max_length=5, default=MEMBERSHIP_BRONZE, choices=MEMBERSHIP_CHOICE, verbose_name='نوع عضویت')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -75,12 +78,12 @@ class Order(models.Model):
     ]
 
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True , verbose_name='شناسه')
-    placed_at = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+                          editable=False, unique=True, verbose_name='شناسه')
+    placed_at = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
     payment_status = models.CharField(
-        max_length=15, choices=PAYMENT_STATUS, default=PENDING_STATUS , verbose_name='وضعیت پرداخت')
+        max_length=15, choices=PAYMENT_STATUS, default=PENDING_STATUS, verbose_name='وضعیت پرداخت')
     customer = models.ForeignKey(
-        'Customer', on_delete=models.CASCADE, related_name='customer_item' , verbose_name='مشتری')
+        'Customer', on_delete=models.CASCADE, related_name='customer_item', verbose_name='مشتری')
 
     def __str__(self):
         return self.placed_at
@@ -92,10 +95,10 @@ class Order(models.Model):
 
 class Address(models.Model):
     customer = models.OneToOneField(
-        'Customer', on_delete=models.CASCADE, primary_key=True , verbose_name='مشتری')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
-    city = models.CharField(max_length=25 , verbose_name='شهر')
-    street = models.TextField(max_length=200 , verbose_name='خیابان')
+        'Customer', on_delete=models.CASCADE, primary_key=True, verbose_name='مشتری')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    city = models.CharField(max_length=25, verbose_name='شهر')
+    street = models.TextField(max_length=200, verbose_name='خیابان')
 
     def __str__(self):
         return f'{self.customer} - {self.city}'
@@ -107,11 +110,11 @@ class Address(models.Model):
 
 class Collection(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True , verbose_name='شناسه')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
-    title = models.CharField(max_length=255, unique=True , verbose_name='عنوان')
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     featured_product = models.ForeignKey(
-        'Product', on_delete=models.SET_NULL, null=True, related_name='featured_item' , verbose_name='محصول ویژه')
+        'Product', on_delete=models.SET_NULL, null=True, related_name='featured_item', verbose_name='محصول ویژه')
 
     def __str__(self):
         return self.title
@@ -123,14 +126,15 @@ class Collection(models.Model):
 
 class OrderItem(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True , verbose_name='شناسه')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
     order = models.ForeignKey(
-        'Order', on_delete=models.PROTECT, related_name='order_item' , verbose_name='سفارش')
+        'Order', on_delete=models.PROTECT, related_name='order_item', verbose_name='سفارش')
     product = models.ForeignKey(
-        'Product', on_delete=models.PROTECT, related_name='product_items' , verbose_name='محصول')
+        'Product', on_delete=models.PROTECT, related_name='product_items', verbose_name='محصول')
     quantity = models.SmallIntegerField(verbose_name='تعداد')
-    price = models.DecimalField(max_digits=6, decimal_places=2 , verbose_name='قیمت واحد')
+    price = models.DecimalField(
+        max_digits=6, decimal_places=2, verbose_name='قیمت واحد')
 
     def __str__(self):
         return f'{self.product} - {self.price}'
@@ -155,12 +159,12 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True , verbose_name='شناسه')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
     cart = models.ForeignKey(
-        'Cart', on_delete=models.CASCADE, related_name='cart_item' , verbose_name='سبد')
+        'Cart', on_delete=models.CASCADE, related_name='cart_item', verbose_name='سبد')
     product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, related_name='product_item' , verbose_name='محصول')
+        'Product', on_delete=models.CASCADE, related_name='product_item', verbose_name='محصول')
     quantity = models.SmallIntegerField(verbose_name='تعداد')
 
     class Meta:
@@ -170,9 +174,9 @@ class CartItem(models.Model):
 
 class Promotion(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True , verbose_name='شناسه')
-    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
-    description = models.CharField(max_length=255 , verbose_name='توضیحات')
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    description = models.CharField(max_length=255, verbose_name='توضیحات')
     discount = models.FloatField(verbose_name='تخفیف')
 
     class Meta:
