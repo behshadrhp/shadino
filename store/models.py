@@ -27,6 +27,7 @@ class Product(models.Model):
         return self.title
 
     class Meta:
+        verbose_name_plural = 'محصولات'
         ordering = ['-updated']
 
 
@@ -57,6 +58,7 @@ class Customer(models.Model):
         return f'{self.first_name} {self.last_name}'
 
     class Meta:
+        verbose_name_plural = 'مشتریان'
         ordering = ['birthday']
 
 
@@ -84,6 +86,7 @@ class Order(models.Model):
         return self.placed_at
 
     class Meta:
+        verbose_name_plural = 'وضعیت سفارش'
         ordering = ['-placed_at']
 
 
@@ -98,6 +101,7 @@ class Address(models.Model):
         return f'{self.customer} - {self.city}'
 
     class Meta:
+        verbose_name_plural = 'ادرس مشتریان'
         ordering = ['-created']
 
 
@@ -113,6 +117,7 @@ class Collection(models.Model):
         return self.title
 
     class Meta:
+        verbose_name_plural = 'مجموعه ها'
         ordering = ['-created']
 
 
@@ -131,6 +136,7 @@ class OrderItem(models.Model):
         return f'{self.product} - {self.price}'
 
     class Meta:
+        verbose_name_plural = 'سفارشات'
         ordering = ['-created']
 
 
@@ -143,6 +149,7 @@ class Cart(models.Model):
         return self.created
 
     class Meta:
+        verbose_name_plural = 'سبد ها'
         ordering = ['-created']
 
 
@@ -157,6 +164,7 @@ class CartItem(models.Model):
     quantity = models.SmallIntegerField()
 
     class Meta:
+        verbose_name_plural = 'سبد خرید'
         ordering = ['-created']
 
 
@@ -166,3 +174,6 @@ class Promotion(models.Model):
     created = models.DateField(auto_now_add=True)
     description = models.CharField(max_length=255)
     discount = models.FloatField()
+
+    class Meta:
+        verbose_name_plural = 'تبلیغات'
