@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "colorfield",
     # store app
     'store',
+    # tag app
+    'tag',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
