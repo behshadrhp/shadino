@@ -11,17 +11,17 @@ class Product(models.Model):
     # product information
 
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
-    updated = models.DateField(auto_now=True)
-    title = models.CharField(max_length=255, unique=True)
-    description = models.TextField()
-    slug = models.SlugField(max_length=255, unique=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+    updated = models.DateField(auto_now=True , verbose_name='به روز رسانی شده')
+    title = models.CharField(max_length=255, unique=True , verbose_name='عنوان')
+    description = models.TextField(verbose_name='توضیاحات')
+    slug = models.SlugField(max_length=255, unique=True , verbose_name='نامک')
+    price = models.DecimalField(max_digits=6, decimal_places=2 , verbose_name='قیمت واحد')
     collection = models.ForeignKey(
-        'Collection', on_delete=models.CASCADE, related_name='collection_item')
+        'Collection', on_delete=models.CASCADE, related_name='collection_item' , verbose_name='مجموعه')
     promotion = models.ManyToManyField(
-        'Promotion', related_name='promotion_item')
+        'Promotion', related_name='promotion_item'  , verbose_name='تبلیغات')
 
     def __str__(self):
         return self.title
@@ -34,25 +34,25 @@ class Product(models.Model):
 class Customer(models.Model):
 
     # membership choice
-    MEMBERSHIP_BRONZE = 'B'
-    MEMBERSHIP_SILVER = 'S'
-    MEMBERSHIP_GOLD = 'G'
+    MEMBERSHIP_BRONZE = 'برنز'
+    MEMBERSHIP_SILVER = 'نقره'
+    MEMBERSHIP_GOLD = 'طلا'
     MEMBERSHIP_CHOICE = [
-        (MEMBERSHIP_BRONZE, 'Bronze'),
-        (MEMBERSHIP_SILVER, 'Silver'),
-        (MEMBERSHIP_GOLD, 'Gold')
+        (MEMBERSHIP_BRONZE, 'عضویت برنزی'),
+        (MEMBERSHIP_SILVER, 'عضویت نقره ای'),
+        (MEMBERSHIP_GOLD, 'عضویت طلای')
     ]
 
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
-    first_name = models.CharField(max_length=25)
-    last_name = models.CharField(max_length=25)
-    email = models.EmailField(unique=True)
-    phone = PhoneNumberField(unique=True, help_text='Contact phone number')
-    birthday = models.DateField(default=datetime.now, editable=True)
+                          editable=False, unique=True , verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+    first_name = models.CharField(max_length=25 , verbose_name='نام')
+    last_name = models.CharField(max_length=25 , verbose_name='نام خوانوادگی')
+    email = models.EmailField(unique=True , verbose_name='ایمیل')
+    phone = PhoneNumberField(unique=True, help_text='لطفا شماره همراه خود را وارد کنید' , verbose_name='شماره همراه')
+    birthday = models.DateField(default=datetime.now, editable=True , verbose_name='تاریخ تولد')
     membership = models.CharField(
-        max_length=1, default=MEMBERSHIP_BRONZE, choices=MEMBERSHIP_CHOICE)
+        max_length=5, default=MEMBERSHIP_BRONZE, choices=MEMBERSHIP_CHOICE , verbose_name='نوع عضویت')
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -65,22 +65,22 @@ class Customer(models.Model):
 class Order(models.Model):
 
     # payment status
-    PENDING_STATUS = 'P'
-    COMPLETE_STATUS = 'C'
-    FAILED_STATUS = 'F'
+    PENDING_STATUS = 'در انتظار'
+    COMPLETE_STATUS = 'تکیمل'
+    FAILED_STATUS = 'لغو عملیات'
     PAYMENT_STATUS = [
-        (PENDING_STATUS, 'Pending'),
-        (COMPLETE_STATUS, 'Complete'),
-        (FAILED_STATUS, 'Failed')
+        (PENDING_STATUS, 'در انتظار پرداخت'),
+        (COMPLETE_STATUS, 'پرداخت تکمیل شده است'),
+        (FAILED_STATUS, 'لغو عملیات پرداخت')
     ]
 
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    placed_at = models.DateField(auto_now_add=True)
+                          editable=False, unique=True , verbose_name='شناسه')
+    placed_at = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
     payment_status = models.CharField(
-        max_length=1, choices=PAYMENT_STATUS, default=PENDING_STATUS)
+        max_length=15, choices=PAYMENT_STATUS, default=PENDING_STATUS , verbose_name='وضعیت پرداخت')
     customer = models.ForeignKey(
-        'Customer', on_delete=models.CASCADE, related_name='customer_item')
+        'Customer', on_delete=models.CASCADE, related_name='customer_item' , verbose_name='مشتری')
 
     def __str__(self):
         return self.placed_at
@@ -92,10 +92,10 @@ class Order(models.Model):
 
 class Address(models.Model):
     customer = models.OneToOneField(
-        'Customer', on_delete=models.CASCADE, primary_key=True)
-    created = models.DateField(auto_now_add=True)
-    city = models.CharField(max_length=25)
-    street = models.TextField(max_length=200)
+        'Customer', on_delete=models.CASCADE, primary_key=True , verbose_name='مشتری')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+    city = models.CharField(max_length=25 , verbose_name='شهر')
+    street = models.TextField(max_length=200 , verbose_name='خیابان')
 
     def __str__(self):
         return f'{self.customer} - {self.city}'
@@ -107,11 +107,11 @@ class Address(models.Model):
 
 class Collection(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
-    title = models.CharField(max_length=255, unique=True)
+                          editable=False, unique=True , verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+    title = models.CharField(max_length=255, unique=True , verbose_name='عنوان')
     featured_product = models.ForeignKey(
-        'Product', on_delete=models.SET_NULL, null=True, related_name='featured_item')
+        'Product', on_delete=models.SET_NULL, null=True, related_name='featured_item' , verbose_name='محصول ویژه')
 
     def __str__(self):
         return self.title
@@ -123,14 +123,14 @@ class Collection(models.Model):
 
 class OrderItem(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
+                          editable=False, unique=True , verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
     order = models.ForeignKey(
-        'Order', on_delete=models.PROTECT, related_name='order_item')
+        'Order', on_delete=models.PROTECT, related_name='order_item' , verbose_name='سفارش')
     product = models.ForeignKey(
-        'Product', on_delete=models.PROTECT, related_name='product_items')
-    quantity = models.SmallIntegerField()
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+        'Product', on_delete=models.PROTECT, related_name='product_items' , verbose_name='محصول')
+    quantity = models.SmallIntegerField(verbose_name='تعداد')
+    price = models.DecimalField(max_digits=6, decimal_places=2 , verbose_name='قیمت واحد')
 
     def __str__(self):
         return f'{self.product} - {self.price}'
@@ -155,13 +155,13 @@ class Cart(models.Model):
 
 class CartItem(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
+                          editable=False, unique=True , verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
     cart = models.ForeignKey(
-        'Cart', on_delete=models.CASCADE, related_name='cart_item')
+        'Cart', on_delete=models.CASCADE, related_name='cart_item' , verbose_name='سبد')
     product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, related_name='product_item')
-    quantity = models.SmallIntegerField()
+        'Product', on_delete=models.CASCADE, related_name='product_item' , verbose_name='محصول')
+    quantity = models.SmallIntegerField(verbose_name='تعداد')
 
     class Meta:
         verbose_name_plural = 'سبد خرید'
@@ -170,10 +170,10 @@ class CartItem(models.Model):
 
 class Promotion(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
-    description = models.CharField(max_length=255)
-    discount = models.FloatField()
+                          editable=False, unique=True , verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True , verbose_name='ایجاد شده')
+    description = models.CharField(max_length=255 , verbose_name='توضیحات')
+    discount = models.FloatField(verbose_name='تخفیف')
 
     class Meta:
         verbose_name_plural = 'تبلیغات'
