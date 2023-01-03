@@ -132,7 +132,7 @@ class OrderItem(models.Model):
         'Order', on_delete=models.PROTECT, related_name='order_item', verbose_name='سفارش')
     product = models.ForeignKey(
         'Product', on_delete=models.PROTECT, related_name='product_items', verbose_name='محصول')
-    quantity = models.SmallIntegerField(verbose_name='تعداد')
+    quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
     price = models.DecimalField(
         max_digits=6, decimal_places=2, verbose_name='قیمت واحد')
 
@@ -165,7 +165,7 @@ class CartItem(models.Model):
         'Cart', on_delete=models.CASCADE, related_name='cart_item', verbose_name='سبد')
     product = models.ForeignKey(
         'Product', on_delete=models.CASCADE, related_name='product_item', verbose_name='محصول')
-    quantity = models.SmallIntegerField(verbose_name='تعداد')
+    quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
 
     class Meta:
         verbose_name_plural = 'سبد خرید'
