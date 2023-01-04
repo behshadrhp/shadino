@@ -88,7 +88,7 @@ class Order(models.Model):
         'Customer', on_delete=models.CASCADE, related_name='customer_item', verbose_name='مشتری')
 
     def __str__(self):
-        return self.placed_at
+        return f'{self.customer} - {self.placed_at}'
 
     class Meta:
         verbose_name = 'وضعیت سفارشی'
@@ -118,7 +118,7 @@ class Collection(models.Model):
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
     title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     featured_product = models.ForeignKey(
-        'Product', on_delete=models.SET_NULL, null=True, related_name='featured_item', verbose_name='محصول ویژه')
+        'Product', on_delete=models.SET_NULL, null=True, blank=True, related_name='featured_item', verbose_name='محصول ویژه')
 
     def __str__(self):
         return self.title
@@ -156,7 +156,7 @@ class Cart(models.Model):
     created = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return self.created
+        return f'{self.created}'
 
     class Meta:
         verbose_name = 'سبدی'
@@ -174,6 +174,9 @@ class CartItem(models.Model):
         'Product', on_delete=models.CASCADE, related_name='product_item', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
 
+    def __str__(self):
+        return f'{self.product} - {self.quantity}'
+
     class Meta:
         verbose_name = 'سبد خریدی'
         verbose_name_plural = 'سبد خرید ها'
@@ -186,6 +189,9 @@ class Promotion(models.Model):
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
     description = models.CharField(max_length=255, verbose_name='توضیحات')
     discount = models.FloatField(verbose_name='تخفیف')
+
+    def __str__(self):
+        return self.description
 
     class Meta:
         verbose_name = 'تبلیغی'
