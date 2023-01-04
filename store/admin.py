@@ -81,7 +81,11 @@ class CustomerAdmin(admin.ModelAdmin):
 
 @admin.register(models.Address)
 class AddressAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['customer', 'city', 'street', 'created']
+    list_filter = ['city']
+    list_per_page = 10
+    fields = ['customer', 'city', 'street']
+    autocomplete_fields = ['customer']
 
 
 @admin.register(models.Promotion)
