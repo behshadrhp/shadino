@@ -48,7 +48,13 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(models.OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['order', 'product', 'price', 'quantity', 'created']
+    list_editable = ['price']
+    list_per_page = 10
+    search_fields = ['order__customer__first_name__icontains',
+                     'order__customer__last_name__icontains', 'product__title__icontains']
+    fields = ['order', 'product', 'quantity', 'price']
+    autocomplete_fields = ['order', 'product']
 
 
 @admin.register(models.Collection)

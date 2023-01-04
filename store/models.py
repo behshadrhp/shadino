@@ -88,7 +88,7 @@ class Order(models.Model):
         'Customer', on_delete=models.CASCADE, related_name='customer_item', verbose_name='مشتری')
 
     def __str__(self):
-        return f'{self.customer} - {self.placed_at}'
+        return f'{self.customer}'
 
     class Meta:
         verbose_name = 'وضعیت سفارشی'
