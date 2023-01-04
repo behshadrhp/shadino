@@ -69,7 +69,14 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    search_fields = ['first_name', 'last_name', 'email', 'phone']
+    list_display = ['first_name', 'last_name', 'email',
+                    'phone', 'membership', 'birthday', 'created']
+    list_filter = ['membership']
+    list_per_page = 10
+    search_fields = ['first_name__icontains',
+                     'last_name__icontains', 'email__icontains', 'phone__icontains']
+    fields = ['first_name', 'last_name', 'email',
+              'phone', 'birthday', 'membership']
 
 
 @admin.register(models.Address)
