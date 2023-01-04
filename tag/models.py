@@ -9,7 +9,8 @@ class Tag(models.Model):
     label = models.CharField(max_length=255, verbose_name='عنوان برچسب')
 
     class Meta:
-        verbose_name_plural = 'برچسب'
+        verbose_name = 'برچسبی'
+        verbose_name_plural = ' برچسب ها'
         ordering = ['label']
 
 
@@ -22,4 +23,5 @@ class TagItem(models.Model):
     content_object = GenericForeignKey()
 
     class Meta:
+        verbose_name = 'برچسب های انتخابی'
         verbose_name_plural = 'برچسب انتخابی توسط کاربر'
