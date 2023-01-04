@@ -59,7 +59,12 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
+    list_display = ['title', 'featured_product', 'created']
+    list_editable = ['featured_product']
+    list_per_page = 10
     search_fields = ['title__icontains']
+    fields = ['title', 'featured_product']
+    autocomplete_fields = ['featured_product']
 
 
 @admin.register(models.Customer)
