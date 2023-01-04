@@ -169,7 +169,7 @@ class CartItem(models.Model):
                           editable=False, unique=True, verbose_name='شناسه')
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
     cart = models.ForeignKey(
-        'Cart', on_delete=models.CASCADE, related_name='cart_item', verbose_name='سبد')
+        'Cart', on_delete=models.CASCADE, related_name='cart_item', verbose_name='سبد ایجاد شده')
     product = models.ForeignKey(
         'Product', on_delete=models.CASCADE, related_name='product_item', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')

@@ -6,17 +6,23 @@ from . import models
 
 @admin.register(models.CartItem)
 class CartItemAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['product', 'cart', 'quantity']
+    list_editable = ['quantity']
+    list_per_page = 10
+    search_fields = ['product__title__icontains']
+    fields = ['cart', 'product', 'quantity']
+    autocomplete_fields = ['product', 'cart']
 
 
 @admin.register(models.Cart)
 class CartAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['created__icontains']
 
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['title__icontains',
+                     'description__icontains', 'collection__title__icontains']
 
 
 @admin.register(models.Order)
