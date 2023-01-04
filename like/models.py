@@ -13,4 +13,5 @@ class LikeItem(models.Model):
     content_object = GenericForeignKey()
 
     class Meta:
+        verbose_name = 'پسندیده شده ها'
         verbose_name_plural = 'پسندیده شده توسط کاربر'
