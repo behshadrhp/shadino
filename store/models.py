@@ -18,7 +18,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name='توضیاحات')
     slug = models.SlugField(max_length=255, unique=True, verbose_name='نامک')
     price = models.DecimalField(
-        max_digits=6, decimal_places=2, verbose_name='قیمت واحد')
+        max_digits=15, decimal_places=2, verbose_name='قیمت واحد')
     collection = models.ForeignKey(
         'Collection', on_delete=models.CASCADE, related_name='collection_item', verbose_name='مجموعه')
     promotion = models.ManyToManyField(
@@ -139,7 +139,7 @@ class OrderItem(models.Model):
         'Product', on_delete=models.PROTECT, related_name='product_items', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
     price = models.DecimalField(
-        max_digits=6, decimal_places=2, verbose_name='قیمت واحد')
+        max_digits=15, decimal_places=2, verbose_name='قیمت واحد')
 
     def __str__(self):
         return f'{self.product} - {self.price}'

@@ -23,8 +23,15 @@ class CartAdmin(admin.ModelAdmin):
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    search_fields = ['title__icontains',
-                     'description__icontains', 'collection__title__icontains']
+    list_display = ['title', 'price', 'collection', 'created', 'updated']
+    list_editable = ['price']
+    list_per_page = 10
+    list_filter = ['collection']
+    search_fields = ['title__icontains', 'description__icontains']
+    autocomplete_fields = ['collection', 'promotion']
+    prepopulated_fields = {
+        'slug': ['title']
+    }
 
 
 @admin.register(models.Order)
@@ -39,7 +46,7 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['title__icontains']
 
 
 @admin.register(models.Customer)
@@ -54,4 +61,4 @@ class AddressAdmin(admin.ModelAdmin):
 
 @admin.register(models.Promotion)
 class PromotionAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['description__icontains']
