@@ -16,6 +16,8 @@ class CartItemAdmin(admin.ModelAdmin):
 
 @admin.register(models.Cart)
 class CartAdmin(admin.ModelAdmin):
+    list_display = ['id', 'created']
+    list_per_page = 10
     search_fields = ['created__icontains']
 
 
