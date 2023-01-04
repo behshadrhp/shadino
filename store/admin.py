@@ -36,7 +36,14 @@ class ProductAdmin(admin.ModelAdmin):
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['customer', 'payment_status', 'placed_at']
+    list_editable = ['payment_status']
+    list_per_page = 10
+    list_filter = ['payment_status']
+    search_fields = ['customer__first_name__icontains',
+                     'customer__last_name__icontains']
+    fields = ['payment_status', 'customer']
+    autocomplete_fields = ['customer']
 
 
 @admin.register(models.OrderItem)
@@ -51,7 +58,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['first_name', 'last_name', 'email', 'phone']
 
 
 @admin.register(models.Address)
