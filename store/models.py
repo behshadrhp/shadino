@@ -1,4 +1,5 @@
 from django.db import models
+from djmoney.models.fields import MoneyField
 from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime
 from uuid import uuid4
@@ -17,12 +18,12 @@ class Product(models.Model):
     title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیاحات')
     slug = models.SlugField(max_length=255, unique=True, verbose_name='نامک')
-    price = models.DecimalField(
-        max_digits=15, decimal_places=2, verbose_name='قیمت واحد')
+    price = MoneyField(decimal_places=2, verbose_name='قیمت واحد',
+                       default_currency='IRR', max_digits=50)
     collection = models.ForeignKey(
         'Collection', on_delete=models.CASCADE, related_name='collection_item', verbose_name='مجموعه')
     promotion = models.ManyToManyField(
-        'Promotion', related_name='promotion_item', verbose_name='تبلیغات')
+        'Promotion', related_name='promotion_item', verbose_name='تبلیغات', blank=True)
 
     def __str__(self):
         return self.title
@@ -138,8 +139,8 @@ class OrderItem(models.Model):
     product = models.ForeignKey(
         'Product', on_delete=models.PROTECT, related_name='product_items', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
-    price = models.DecimalField(
-        max_digits=15, decimal_places=2, verbose_name='قیمت واحد')
+    price = MoneyField(decimal_places=2, verbose_name='قیمت واحد',
+                       default_currency='IRR', max_digits=50)
 
     def __str__(self):
         return f'{self.product} - {self.price}'

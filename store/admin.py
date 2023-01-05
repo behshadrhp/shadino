@@ -24,7 +24,6 @@ class CartAdmin(admin.ModelAdmin):
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'collection', 'created', 'updated']
-    list_editable = ['price']
     list_per_page = 10
     list_filter = ['collection']
     search_fields = ['title__icontains', 'description__icontains']
@@ -49,7 +48,6 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(models.OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['order', 'product', 'price', 'quantity', 'created']
-    list_editable = ['price']
     list_per_page = 10
     search_fields = ['order__customer__first_name__icontains',
                      'order__customer__last_name__icontains', 'product__title__icontains']
