@@ -97,7 +97,6 @@ class AddressAdmin(admin.ModelAdmin):
 @admin.register(models.Promotion)
 class PromotionAdmin(admin.ModelAdmin):
     list_display = ['description', 'discount', 'created']
-    list_editable = ['discount']
     list_per_page = 10
     search_fields = ['description__icontains']
     fields = ['description', 'discount']
