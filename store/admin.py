@@ -36,7 +36,6 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['customer', 'payment_status', 'placed_at']
-    list_editable = ['payment_status']
     list_per_page = 10
     list_filter = ['payment_status']
     search_fields = ['customer__first_name__icontains',
