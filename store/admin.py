@@ -47,12 +47,21 @@ class OrderAdmin(admin.ModelAdmin):
 
 @admin.register(models.OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ['order', 'product', 'price', 'quantity', 'created']
+    list_display = ['order', 'product', 'quantity',
+                    'price', 'final_price', 'created']
     list_per_page = 10
     search_fields = ['order__customer__first_name__icontains',
                      'order__customer__last_name__icontains', 'product__title__icontains']
-    fields = ['order', 'product', 'quantity', 'price']
+    fields = ['order', 'product', 'quantity']
     autocomplete_fields = ['order', 'product']
+
+    @admin.display(description='قیمت واحد')
+    def price(self, product: models.OrderItem):
+        return product.product.price
+
+    @admin.display(description='قیمت نهایی')
+    def final_price(self, product: models.OrderItem):
+        return product.quantity * product.product.price
 
 
 @admin.register(models.Collection)

@@ -139,8 +139,6 @@ class OrderItem(models.Model):
     product = models.ForeignKey(
         'Product', on_delete=models.PROTECT, related_name='product_items', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
-    price = MoneyField(decimal_places=2, verbose_name='قیمت واحد',
-                       default_currency='IRR', max_digits=50)
 
     def __str__(self):
         return f'{self.product} - {self.price}'
