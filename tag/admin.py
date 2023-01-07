@@ -6,9 +6,9 @@ from .models import Tag, TagItem
 
 @admin.register(Tag)
 class TagAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['label']
 
 
 @admin.register(TagItem)
 class TagItemAdmin(admin.ModelAdmin):
-    pass
+    search_fields = ['tag__label__icontains']

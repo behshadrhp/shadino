@@ -1,8 +1,13 @@
 from django.contrib import admin
+from django.contrib.contenttypes.admin import GenericTabularInline
 from . import models
+from tag.models import TagItem
 
 # Register your models here.
 
+class TagInLine(GenericTabularInline):
+    autocomplete_fields = ['tag']
+    model = TagItem
 
 @admin.register(models.CartItem)
 class CartItemAdmin(admin.ModelAdmin):
@@ -26,6 +31,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['title', 'price', 'collection', 'created', 'updated']
     list_per_page = 10
     list_filter = ['collection']
+    inlines = [TagInLine]
     search_fields = ['title__icontains', 'description__icontains']
     autocomplete_fields = ['collection', 'promotion']
     prepopulated_fields = {
