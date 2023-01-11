@@ -17,7 +17,7 @@ class Product(models.Model):
     updated = models.DateField(auto_now=True, verbose_name='به روز رسانی شده')
     title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیاحات')
-    slug = models.SlugField(max_length=255, unique=True, verbose_name='نامک')
+    slug = models.SlugField(max_length=255, unique=True, verbose_name='نامک', allow_unicode=True)
     price = MoneyField(decimal_places=2, verbose_name='قیمت واحد',
                        default_currency='IRR', max_digits=50)
     collection = models.ForeignKey(
