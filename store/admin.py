@@ -1,6 +1,8 @@
 from django.contrib import admin
+from django.db.models.aggregates import Count
+from django.utils.html import format_html, urlencode
+from django.urls import reverse
 from . import models
-from tag.models import TagItem
 
 # Register your models here.
 
@@ -66,11 +68,27 @@ class OrderItemAdmin(admin.ModelAdmin):
 
 @admin.register(models.Collection)
 class CollectionAdmin(admin.ModelAdmin):
-    list_display = ['title', 'featured_product', 'created']
+    list_display = ['title', 'product_count', 'featured_product', 'created']
     list_per_page = 10
     search_fields = ['title__icontains']
     fields = ['title', 'featured_product']
     autocomplete_fields = ['featured_product']
+
+    @admin.display(description='محصولات این مجموعه')
+    def product_count(self, collection: models.Collection):
+        url = (
+            reverse('admin:store_product_changelist')
+            + '?'
+            + urlencode({
+                'collection__id': str(collection.id)
+            })
+        )
+        return format_html(f'<a href="{url}">{collection.product_count}</a>')
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).annotate(
+            product_count=Count('collection_item')
+        )
 
 
 @admin.register(models.Customer)
