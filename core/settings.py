@@ -25,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # django restframework
+    'rest_framework',
     # django money
     'djmoney',
     # admin panel theme
