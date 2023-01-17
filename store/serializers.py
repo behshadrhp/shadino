@@ -6,3 +6,9 @@ class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = ['id',  'title', 'price', 'updated']
+
+
+class ProductCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = '__all__'
