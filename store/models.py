@@ -14,12 +14,12 @@ class Product(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
                           editable=False, unique=True, verbose_name='شناسه')
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
-    updated = models.DateField(auto_now=True, verbose_name='به روز رسانی شده')
+    updated = models.DateTimeField(auto_now=True, verbose_name='به روز رسانی شده')
     title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیاحات')
     slug = models.SlugField(max_length=255, unique=True,
                             verbose_name='نامک', allow_unicode=True)
-    price = MoneyField(decimal_places=2, verbose_name='قیمت واحد',
+    price = MoneyField(decimal_places=0, verbose_name='قیمت واحد',
                        default_currency='IRR', max_digits=50)
     collection = models.ForeignKey(
         'Collection', on_delete=models.CASCADE, related_name='collection_item', verbose_name='مجموعه')
