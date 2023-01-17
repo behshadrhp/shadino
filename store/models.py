@@ -17,7 +17,8 @@ class Product(models.Model):
     updated = models.DateField(auto_now=True, verbose_name='به روز رسانی شده')
     title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیاحات')
-    slug = models.SlugField(max_length=255, unique=True, verbose_name='نامک', allow_unicode=True)
+    slug = models.SlugField(max_length=255, unique=True,
+                            verbose_name='نامک', allow_unicode=True)
     price = MoneyField(decimal_places=2, verbose_name='قیمت واحد',
                        default_currency='IRR', max_digits=50)
     collection = models.ForeignKey(
@@ -151,26 +152,10 @@ class OrderItem(models.Model):
 
 class Cart(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
-                          editable=False, unique=True)
-    created = models.DateField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.created}'
-
-    class Meta:
-        verbose_name = 'سبدی'
-        verbose_name_plural = 'سبد ها'
-        ordering = ['-created']
-
-
-class CartItem(models.Model):
-    id = models.UUIDField(default=uuid4, primary_key=True,
                           editable=False, unique=True, verbose_name='شناسه')
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
-    cart = models.ForeignKey(
-        'Cart', on_delete=models.CASCADE, related_name='cart_item', verbose_name='سبد ایجاد شده')
     product = models.ForeignKey(
-        'Product', on_delete=models.CASCADE, related_name='product_item', verbose_name='محصول')
+        'Product', on_delete=models.PROTECT, related_name='product_item', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
 
     def __str__(self):
@@ -178,7 +163,7 @@ class CartItem(models.Model):
 
     class Meta:
         verbose_name = 'سبد خریدی'
-        verbose_name_plural = 'سبد خرید ها'
+        verbose_name_plural = 'سبد خرید'
         ordering = ['-created']
 
 
