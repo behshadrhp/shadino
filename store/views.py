@@ -10,7 +10,7 @@ from .serializers import ProductSerializer, ProductCreateUpdateSerializer
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all().order_by('updated')
+    queryset = Product.objects.all().order_by('-updated')
     serializer_class = ProductSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
 
