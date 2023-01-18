@@ -1,10 +1,10 @@
 from django.shortcuts import get_object_or_404
-from django.db.models import ProtectedError, Count
+from django.db.models import ProtectedError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Product, Collection
-from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer
+from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer
 
 # Create your views here.
 
@@ -31,3 +31,8 @@ class ProductViewSet(ModelViewSet):
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.all().order_by('-created')
     serializer_class = CollectionSerializer
+
+    def get_serializer_class(self):
+        if self.action in ['create', 'update', 'partial_update']:
+            return CollectionCreateUpdateSerializer
+        return self.serializer_class

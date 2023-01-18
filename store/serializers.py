@@ -23,3 +23,9 @@ class CollectionSerializer(ModelSerializer):
     class Meta:
         model = Collection
         fields = ['id', 'title', 'created']
+
+
+class CollectionCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = '__all__'
