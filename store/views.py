@@ -5,7 +5,7 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
-from .filterset import ProductFilterSet
+from .filterset import ProductFilterSet, ReviewFilterSet
 from .paginations import DefaultPagination
 from .models import Product, Collection, Review
 from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer, ReviewSerializer
@@ -62,6 +62,7 @@ class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all().order_by('-created')
     serializer_class = ReviewSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_class = ReviewFilterSet
     search_fields = ['name', 'description']
     pagination_class = DefaultPagination
 
