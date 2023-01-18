@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .filterset import ProductFilterSet
+from .paginations import DefaultPagination
 from .models import Product, Collection, Review
 from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer, ReviewSerializer
 
@@ -20,6 +21,7 @@ class ProductViewSet(ModelViewSet):
     filterset_class = ProductFilterSet
     search_fields = ['title', 'description']
     ordering_fields = ['price', 'updated']
+    pagination_class = DefaultPagination
 
     def destroy(self, request, pk):
         queryset = get_object_or_404(Product, pk=pk)
