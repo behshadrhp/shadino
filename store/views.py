@@ -61,6 +61,7 @@ class CollectionViewSet(ModelViewSet):
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all().order_by('-created')
     serializer_class = ReviewSerializer
+    pagination_class = DefaultPagination
 
     def get_queryset(self):
         return Review.objects.filter(product_id=self.kwargs['product_pk'])
