@@ -14,7 +14,8 @@ class Product(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
                           editable=False, unique=True, verbose_name='شناسه')
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
-    updated = models.DateTimeField(auto_now=True, verbose_name='به روز رسانی شده')
+    updated = models.DateTimeField(
+        auto_now=True, verbose_name='به روز رسانی شده')
     title = models.CharField(max_length=255, unique=True, verbose_name='عنوان')
     description = models.TextField(verbose_name='توضیاحات')
     slug = models.SlugField(max_length=255, unique=True,
@@ -180,3 +181,13 @@ class Promotion(models.Model):
     class Meta:
         verbose_name = 'تبلیغی'
         verbose_name_plural = 'تبلیغات'
+
+
+class Review(models.Model):
+    id = models.UUIDField(default=uuid4, primary_key=True,
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    product = models.ForeignKey(
+        'Product', on_delete=models.CASCADE, related_name='reviews')
+    name = models.CharField(max_length=255, verbose_name='نام کاربر')
+    description = models.TextField(verbose_name='توضیحات')

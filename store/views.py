@@ -3,8 +3,8 @@ from django.db.models import ProtectedError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Product, Collection
-from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer
+from .models import Product, Collection, Review
+from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer, ReviewSerializer
 
 # Create your views here.
 
@@ -44,3 +44,8 @@ class CollectionViewSet(ModelViewSet):
         if self.action in ['create', 'update', 'partial_update']:
             return CollectionCreateUpdateSerializer
         return self.serializer_class
+
+
+class ReviewViewSet(ModelViewSet):
+    queryset = Review.objects.all().order_by('-created')
+    serializer_class = ReviewSerializer
