@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # django restframework
     'rest_framework',
+    # django api filtering
+    'django_filters',
     # django money
     'djmoney',
     # admin panel theme

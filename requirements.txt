@@ -5,9 +5,11 @@ backports.zoneinfo==0.2.1
 Django==4.1.4
 django-admin-interface==0.24.2
 django-colorfield==0.8.0
+django-filter==22.1
 django-money==3.0.0
 django-phonenumber-field==7.0.1
 djangorestframework==3.14.0
+drf-nested-routers==0.93.4
 mysqlclient==2.1.1
 phonenumbers==8.13.3
 Pillow==9.3.0
