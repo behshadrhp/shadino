@@ -40,6 +40,8 @@ class ProductViewSet(ModelViewSet):
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.all().order_by('-created')
     serializer_class = CollectionSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['title']
 
     def destroy(self, request, pk):
         queryset = get_object_or_404(Collection, pk=pk)
