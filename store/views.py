@@ -61,6 +61,8 @@ class CollectionViewSet(ModelViewSet):
 class ReviewViewSet(ModelViewSet):
     queryset = Review.objects.all().order_by('-created')
     serializer_class = ReviewSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    search_fields = ['name', 'description']
     pagination_class = DefaultPagination
 
     def get_queryset(self):
