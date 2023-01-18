@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Product
+from .models import Product, Collection
 
 
 class ProductSerializer(ModelSerializer):
@@ -17,3 +17,9 @@ class ProductCreateUpdateSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class CollectionSerializer(ModelSerializer):
+    class Meta:
+        model = Collection
+        fields = ['id', 'title', 'created']
