@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404
 from django.db.models import ProtectedError
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
@@ -15,8 +16,9 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all().order_by('-updated')
     serializer_class = ProductSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_class = ProductFilterSet
+    search_fields = ['title', 'description']
 
     def destroy(self, request, pk):
         queryset = get_object_or_404(Product, pk=pk)
