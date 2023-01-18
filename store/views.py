@@ -32,6 +32,14 @@ class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.all().order_by('-created')
     serializer_class = CollectionSerializer
 
+    def destroy(self, request, pk):
+        queryset = get_object_or_404(Collection, pk=pk)
+        try:
+            queryset.delete()
+            return Response({'پیام': 'این مجموعه با موفقیت حذف شد'}, status=status.HTTP_200_OK)
+        except ProtectedError:
+            return Response({'پیام': 'این مجموعه را نمی توان حذف کرد زیرا به یک محصول مرتبط است'}, status=status.HTTP_404_NOT_FOUND)
+
     def get_serializer_class(self):
         if self.action in ['create', 'update', 'partial_update']:
             return CollectionCreateUpdateSerializer
