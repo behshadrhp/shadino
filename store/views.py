@@ -40,8 +40,9 @@ class ProductViewSet(ModelViewSet):
 class CollectionViewSet(ModelViewSet):
     queryset = Collection.objects.all().order_by('-created')
     serializer_class = CollectionSerializer
-    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['title']
+    ordering_fields = ['created']
     pagination_class = DefaultPagination
 
     def destroy(self, request, pk):
