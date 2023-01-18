@@ -3,6 +3,7 @@ from django.db.models import ProtectedError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from rest_framework import status
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product, Collection, Review
 from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer, ReviewSerializer
 
@@ -13,6 +14,8 @@ class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all().order_by('-updated')
     serializer_class = ProductSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['collection_id']
 
     def destroy(self, request, pk):
         queryset = get_object_or_404(Product, pk=pk)
