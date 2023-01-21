@@ -44,4 +44,10 @@ class ReviewSerializer(ModelSerializer):
 class CartSerializer(ModelSerializer):
     class Meta:
         model = Cart
-        fields = '__all__'
+        fields = ['id', 'product', 'quantity', 'total_price', 'created']
+
+    product = ProductSerializer()
+    total_price = SerializerMethodField()
+
+    def get_total_price(self, cart: Cart):
+        return int(cart.product.price.amount * cart.quantity)
