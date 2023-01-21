@@ -7,9 +7,14 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .filterset import ProductFilterSet, ReviewFilterSet
 from .paginations import DefaultPagination
-from .models import Product, Collection, Review
-from .serializers import ProductSerializer, ProductCreateUpdateSerializer, CollectionSerializer, CollectionCreateUpdateSerializer, ReviewSerializer
-
+from .models import Product, Collection, Review, Cart
+from .serializers import (ProductSerializer,
+                          ProductCreateUpdateSerializer,
+                          CollectionSerializer,
+                          CollectionCreateUpdateSerializer,
+                          ReviewSerializer,
+                          CartSerializer,
+                          )
 # Create your views here.
 
 
@@ -73,3 +78,8 @@ class ReviewViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {'product_id': self.kwargs['product_pk']}
+
+
+class CartViewSet(ModelViewSet):
+    queryset = Cart.objects.all().order_by('-created')
+    serializer_class = CartSerializer
