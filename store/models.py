@@ -159,6 +159,9 @@ class Cart(models.Model):
         'Product', on_delete=models.PROTECT, related_name='product_item', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
 
+    class Meta:
+        unique_together = [['product', 'id']]
+
     def __str__(self):
         return f'{self.product} - {self.quantity}'
 
