@@ -44,7 +44,7 @@ class ReviewSerializer(ModelSerializer):
 class CartSerializer(ModelSerializer):
     class Meta:
         model = Cart
-        fields = ['id', 'product', 'quantity', 'total_price', 'created']
+        fields = ['id', 'product', 'quantity', 'cart', 'total_price', 'created']
 
     product = ProductSerializer()
     total_price = SerializerMethodField()

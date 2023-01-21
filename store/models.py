@@ -151,23 +151,37 @@ class OrderItem(models.Model):
         ordering = ['-created']
 
 
+class CartItem(models.Model):
+    id = models.UUIDField(default=uuid4, primary_key=True,
+                          editable=False, unique=True, verbose_name='شناسه')
+    created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+
+    def __str__(self):
+        return str(self.created)
+
+    class Meta:
+        verbose_name = 'سبد'
+        verbose_name_plural = 'سبد'
+        ordering = ['-created']
+
+
 class Cart(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
                           editable=False, unique=True, verbose_name='شناسه')
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
+    cart = models.ForeignKey(
+        'CartItem', on_delete=models.CASCADE, related_name='cartitem', verbose_name='سبد')
     product = models.ForeignKey(
         'Product', on_delete=models.PROTECT, related_name='product_item', verbose_name='محصول')
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
-
-    class Meta:
-        unique_together = [['product', 'id']]
 
     def __str__(self):
         return f'{self.product} - {self.quantity}'
 
     class Meta:
-        verbose_name = 'سبد خریدی'
-        verbose_name_plural = 'سبد خرید'
+        verbose_name = 'کالای سبد خریدی'
+        verbose_name_plural = 'کالای سبد خرید'
+        unique_together = [['cart', 'product']]
         ordering = ['-created']
 
 

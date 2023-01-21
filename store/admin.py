@@ -7,14 +7,18 @@ from . import models
 # Register your models here.
 
 
+@admin.register(models.CartItem)
+class CartItemAdmin(admin.ModelAdmin):
+    search_fields = ['created']
+
 @admin.register(models.Cart)
 class CartAdmin(admin.ModelAdmin):
-    list_display = ['product', 'quantity', 'total_price', 'created']
+    list_display = ['cart', 'product', 'quantity', 'total_price', 'created']
     list_editable = ['quantity']
     list_per_page = 10
     search_fields = ['product__title__icontains']
-    fields = ['product', 'quantity']
-    autocomplete_fields = ['product']
+    fields = ['cart', 'product', 'quantity']
+    autocomplete_fields = ['product', 'cart']
 
     @admin.display(description='قیمت کل')
     def total_price(self, cart: models.Cart):
