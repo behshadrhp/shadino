@@ -65,3 +65,8 @@ class CartItemSerializer(ModelSerializer):
         result = sum(
             [item.quantity * item.product.price.amount for item in cart.cartitem.all()])
         return int(result)
+
+    def create(self, validated_data):
+        items_data = validated_data.pop('cartitem')
+        cart = Cart.objects.create(**validated_data)
+        return cart
