@@ -4,10 +4,13 @@ from . import views
 router = DefaultRouter()
 router.register('products', views.ProductViewSet, basename='products')
 router.register('collections', views.CollectionViewSet, basename='collection')
-router.register('carts', views.CartItemViewSet, basename='carts')
+router.register('carts', views.CartItemViewSet, basename='cart')
 
 product_router = NestedDefaultRouter(router, 'products', lookup='product')
 product_router.register('reviews', views.ReviewViewSet,
                         basename='product-reviews')
 
-urlpatterns = router.urls + product_router.urls
+cart_item = NestedDefaultRouter(router, 'carts', lookup='cart')
+cart_item.register('items', views.CartViewSet, basename='cart-item')
+
+urlpatterns = router.urls + product_router.urls + cart_item.urls

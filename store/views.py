@@ -7,7 +7,7 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .filterset import ProductFilterSet, ReviewFilterSet
 from .paginations import DefaultPagination
-from .models import Product, Collection, Review, CartItem
+from .models import Product, Collection, Review, CartItem, Cart
 from .viewsets import CreateRetrieveDestroyGenericViewSet
 from .serializers import (ProductSerializer,
                           ProductCreateUpdateSerializer,
@@ -15,6 +15,7 @@ from .serializers import (ProductSerializer,
                           CollectionCreateUpdateSerializer,
                           ReviewSerializer,
                           CartItemSerializer,
+                          CartReviewItemSerializer,
                           )
 # Create your views here.
 
@@ -85,3 +86,11 @@ class CartItemViewSet(CreateRetrieveDestroyGenericViewSet):
     queryset = CartItem.objects.prefetch_related(
         'cartitem').all().order_by('-created')
     serializer_class = CartItemSerializer
+
+
+class CartViewSet(ModelViewSet):
+    serializer_class = CartReviewItemSerializer
+
+    def get_queryset(self):
+        print(self.kwargs)
+        return Cart.objects.filter(cart_id=self.kwargs['cart_pk']).select_related('product')
