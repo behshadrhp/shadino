@@ -143,7 +143,7 @@ class OrderItem(models.Model):
     quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
 
     def __str__(self):
-        return f'{self.product} - {self.price}'
+        return f'{self.product}'
 
     class Meta:
         verbose_name = 'سفارشی'
@@ -157,7 +157,7 @@ class CartItem(models.Model):
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
 
     def __str__(self):
-        return str(self.created)
+        return str(self.id)
 
     class Meta:
         verbose_name = 'سبد'
