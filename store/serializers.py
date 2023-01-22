@@ -3,14 +3,14 @@ from .models import Product, Collection, Review, Cart, CartItem
 
 
 class ProductSerializer(ModelSerializer):
-    class Meta:
-        model = Product
-        fields = ['id',  'title', 'price', 'collection']
-
     collection = SerializerMethodField()
 
     def get_collection(self, product: Product):
         return product.collection.title
+
+    class Meta:
+        model = Product
+        fields = ['id',  'title', 'price', 'collection']
 
 
 class ProductCreateUpdateSerializer(ModelSerializer):
@@ -32,33 +32,29 @@ class CollectionCreateUpdateSerializer(ModelSerializer):
 
 
 class ReviewSerializer(ModelSerializer):
-    class Meta:
-        model = Review
-        fields = ['id', 'name', 'description', 'created']
-
     def create(self, validated_data):
         product_id = self.context['product_id']
         return Review.objects.create(product_id=product_id, **validated_data)
 
+    class Meta:
+        model = Review
+        fields = ['id', 'name', 'description', 'created']
+
 
 class CartSerializer(ModelSerializer):
-    class Meta:
-        model = Cart
-        fields = ['product', 'quantity', 'total_price', 'created']
-
     product = ProductSerializer()
     total_price = SerializerMethodField()
 
     def get_total_price(self, cart: Cart):
         return int(cart.product.price.amount * cart.quantity)
 
+    class Meta:
+        model = Cart
+        fields = ['product', 'quantity', 'total_price', 'created']
+
 
 class CartItemSerializer(ModelSerializer):
-    class Meta:
-        model = CartItem
-        fields = ['id', 'cartitem', 'total_price', 'created']
-
-    cartitem = CartSerializer(many=True)
+    cartitem = CartSerializer(many=True, read_only=True)
     total_price = SerializerMethodField()
 
     def get_total_price(self, cart: CartItem):
@@ -70,3 +66,7 @@ class CartItemSerializer(ModelSerializer):
         items_data = validated_data.pop('cartitem')
         cart = Cart.objects.create(**validated_data)
         return cart
+
+    class Meta:
+        model = CartItem
+        fields = ['id', 'cartitem', 'total_price', 'created']
