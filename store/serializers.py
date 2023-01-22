@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import Product, Collection, Review, Cart
+from .models import Product, Collection, Review, Cart, CartItem
 
 
 class ProductSerializer(ModelSerializer):
@@ -44,10 +44,24 @@ class ReviewSerializer(ModelSerializer):
 class CartSerializer(ModelSerializer):
     class Meta:
         model = Cart
-        fields = ['id', 'product', 'quantity', 'cart', 'total_price', 'created']
+        fields = ['product', 'quantity', 'total_price', 'created']
 
     product = ProductSerializer()
     total_price = SerializerMethodField()
 
     def get_total_price(self, cart: Cart):
         return int(cart.product.price.amount * cart.quantity)
+
+
+class CartItemSerializer(ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ['id', 'cartitem', 'total_price', 'created']
+
+    cartitem = CartSerializer(many=True)
+    total_price = SerializerMethodField()
+
+    def get_total_price(self, cart: CartItem):
+        result = sum(
+            [item.quantity * item.product.price.amount for item in cart.cartitem.all()])
+        return int(result)
