@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField
 from .models import Product, Collection, Review, Cart, CartItem
 
 
@@ -77,3 +77,11 @@ class CartItemSerializer(ModelSerializer):
     class Meta:
         model = CartItem
         fields = ['id', 'cartitem', 'total_price', 'created']
+
+
+class AddCartSerializer(ModelSerializer):
+    product_id = UUIDField()
+
+    class Meta:
+        model = Cart
+        fields = ['id', 'product_id', 'quantity']

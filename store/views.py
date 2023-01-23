@@ -16,6 +16,7 @@ from .serializers import (ProductSerializer,
                           ReviewSerializer,
                           CartItemSerializer,
                           CartReviewItemSerializer,
+                          AddCartSerializer,
                           )
 # Create your views here.
 
@@ -89,7 +90,11 @@ class CartItemViewSet(CreateRetrieveDestroyGenericViewSet):
 
 
 class CartViewSet(ModelViewSet):
-    serializer_class = CartReviewItemSerializer
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return AddCartSerializer
+        return CartReviewItemSerializer
 
     def get_queryset(self):
         print(self.kwargs)
