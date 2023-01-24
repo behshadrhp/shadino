@@ -17,6 +17,7 @@ from .serializers import (ProductSerializer,
                           CartItemSerializer,
                           CartReviewItemSerializer,
                           AddCartSerializer,
+                          UpdateCartSerializer,
                           )
 # Create your views here.
 
@@ -90,10 +91,13 @@ class CartItemViewSet(CreateRetrieveDestroyGenericViewSet):
 
 
 class CartViewSet(ModelViewSet):
+    http_method_names = ['get', 'post', 'patch', 'delete']
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return AddCartSerializer
+        if self.request.method == 'PATCH':
+            return UpdateCartSerializer
         return CartReviewItemSerializer
 
     def get_serializer_context(self):
