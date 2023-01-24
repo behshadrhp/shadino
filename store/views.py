@@ -97,5 +97,4 @@ class CartViewSet(ModelViewSet):
         return CartReviewItemSerializer
 
     def get_queryset(self):
-        print(self.kwargs)
         return Cart.objects.filter(cart_id=self.kwargs['cart_pk']).select_related('product')
