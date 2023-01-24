@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError
 from .models import Product, Collection, Review, Cart, CartItem
 
 
@@ -81,6 +81,11 @@ class CartItemSerializer(ModelSerializer):
 
 class AddCartSerializer(ModelSerializer):
     product_id = UUIDField()
+
+    def validate_product_id(self, value):
+        if not Product.objects.filter(pk=value).exists():
+            raise ValidationError('هیچ محصولی با این شناسه کاربری یافت نشد')
+        return value
 
     def save(self, **kwargs):
         cart_id = self.context['cart_id']
