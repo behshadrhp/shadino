@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from djmoney.models.fields import MoneyField
 from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime
@@ -173,7 +174,8 @@ class Cart(models.Model):
         'CartItem', on_delete=models.CASCADE, related_name='cartitem', verbose_name='سبد')
     product = models.ForeignKey(
         'Product', on_delete=models.PROTECT, related_name='product_item', verbose_name='محصول')
-    quantity = models.PositiveSmallIntegerField(verbose_name='تعداد')
+    quantity = models.PositiveSmallIntegerField(
+        verbose_name='تعداد', validators=[MinValueValidator(1)])
 
     def __str__(self):
         return f'{self.product} - {self.quantity}'
