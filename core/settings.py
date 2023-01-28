@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'like',
     # store custom
     'store_custom',
+    # authentication app
+    'auth',
 ]
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
