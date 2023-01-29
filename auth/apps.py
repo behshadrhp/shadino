@@ -5,3 +5,4 @@ class AuthConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'auth'
     label = 'authentication'
+    verbose_name = 'احراز هویت'
