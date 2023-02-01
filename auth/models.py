@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from uuid import uuid4
+from json import load
 
 
 # Create your models here.
@@ -24,24 +25,11 @@ class User(AbstractUser):
     def clean(self):
         title = self.username
         title_letter = title.lower()
-        if title_letter == 'none':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
-        elif title_letter == 'admin':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
-        elif title_letter == 'adminstrator':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
-        elif title_letter == 'account':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
-        elif title_letter == 'administrator':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
-        elif title_letter == 'hacked':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
-        elif title_letter == 'fucking':
-            raise ValidationError(
-                'با عرض پوزش این نام کاربری در دسترس نمیباشد')
+
+        with open('auth/reserved-username/username.json', 'r') as username:
+            reserved_username = load(username)
+
+        for item in reserved_username:
+            if title_letter == item:
+                raise ValidationError(
+                    'با عرض پوزش امکان استفاده از این نام کاربری امکان پذیر نمی باشد')
