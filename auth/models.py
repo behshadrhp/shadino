@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from uuid import uuid4
 
+
 # Create your models here.
 
 
