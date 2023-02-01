@@ -16,3 +16,4 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
+    ordering = ("date_joined", "is_staff", "username")
