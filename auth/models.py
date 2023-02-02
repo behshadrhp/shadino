@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from validate_email_address import validate_email
 from uuid import uuid4
 from json import load
 
@@ -25,6 +26,9 @@ class User(AbstractUser):
     def clean(self):
         username = self.username
         username_lower = username.lower()
+        email = self.email
+        email_validation = validate_email(
+            email=email, verify=True, check_mx=True)
 
         with open('auth/reserved-username/username.json', 'r') as username:
             reserved_username = load(username)
@@ -33,3 +37,7 @@ class User(AbstractUser):
             if username_lower == item:
                 raise ValidationError(
                     'با عرض پوزش امکان استفاده از این نام کاربری امکان پذیر نمی باشد')
+
+        if email_validation == False or email_validation == None:
+            raise ValidationError(
+                'ایمیل وارد شده معتبر نیست لطفا از یک ایمیل معتبر استفاده کنید')
