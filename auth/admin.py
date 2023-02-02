@@ -16,4 +16,5 @@ class UserAdmin(BaseUserAdmin):
             },
         ),
     )
+    list_display = ("username", "email", "first_name", "last_name", "is_staff", "last_login")
     ordering = ("date_joined", "is_staff", "username")
