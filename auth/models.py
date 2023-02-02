@@ -23,13 +23,13 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ['first_name', 'last_name', 'email']
 
     def clean(self):
-        title = self.username
-        title_letter = title.lower()
+        username = self.username
+        username_lower = username.lower()
 
         with open('auth/reserved-username/username.json', 'r') as username:
             reserved_username = load(username)
 
         for item in reserved_username:
-            if title_letter == item:
+            if username_lower == item:
                 raise ValidationError(
                     'با عرض پوزش امکان استفاده از این نام کاربری امکان پذیر نمی باشد')
