@@ -14,8 +14,10 @@ mysqlclient==2.1.1
 phonenumbers==8.13.3
 Pillow==9.3.0
 py-moneyed==2.0
+py3dns==3.2.1
 pycodestyle==2.10.0
 pytz==2022.7
 sqlparse==0.4.3
 tomli==2.0.1
 typing_extensions==4.4.0
+validate-email-address==1
