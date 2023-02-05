@@ -151,5 +151,13 @@ REST_FRAMEWORK = {
 
 # json web token
 SIMPLE_JWT = {
-   'AUTH_HEADER_TYPES': ('JWT',),
+    'AUTH_HEADER_TYPES': ('JWT',),
+}
+
+
+# Djoser Conf
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer'
+    }
 }
