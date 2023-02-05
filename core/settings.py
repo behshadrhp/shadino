@@ -27,6 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # django restframework
     'rest_framework',
+    # authentication system
+    'djoser',
     # django api filtering
     'django_filters',
     # django money
@@ -138,3 +140,16 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # authentication app
 AUTH_USER_MODEL = 'authentication.User'
+
+
+# rest framework setting
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+# json web token
+SIMPLE_JWT = {
+   'AUTH_HEADER_TYPES': ('JWT',),
+}

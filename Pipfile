@@ -4,6 +4,8 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+djoser = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 autopep8 = "*"
