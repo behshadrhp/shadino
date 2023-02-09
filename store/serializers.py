@@ -117,7 +117,7 @@ class UpdateCartSerializer(ModelSerializer):
 
 
 class CustomerSerializer(ModelSerializer):
-    user_id = UUIDField()
+    user_id = UUIDField(read_only=True)
 
     class Meta:
         model = Customer
