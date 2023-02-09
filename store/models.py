@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from django.conf import settings
 from djmoney.models.fields import MoneyField
 from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime
@@ -52,8 +53,8 @@ class Customer(models.Model):
     id = models.UUIDField(default=uuid4, primary_key=True,
                           editable=False, unique=True, verbose_name='شناسه')
     created = models.DateField(auto_now_add=True, verbose_name='ایجاد شده')
-    first_name = models.CharField(max_length=25, verbose_name='نام')
-    last_name = models.CharField(max_length=25, verbose_name='نام خوانوادگی')
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='نام کاربری')
     email = models.EmailField(unique=True, verbose_name='ایمیل')
     phone = PhoneNumberField(
         unique=True, help_text='لطفا شماره همراه خود را وارد کنید', verbose_name='شماره همراه')

@@ -11,6 +11,7 @@ from . import models
 class CartItemAdmin(admin.ModelAdmin):
     search_fields = ['created']
 
+
 @admin.register(models.Cart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ['cart', 'product', 'quantity', 'total_price', 'created']
@@ -102,6 +103,14 @@ class CustomerAdmin(admin.ModelAdmin):
                      'last_name__icontains', 'email__icontains', 'phone__icontains']
     fields = ['first_name', 'last_name', 'email',
               'phone', 'birthday', 'membership']
+
+    @admin.display(description='نام')
+    def first_name(self, customer: models.Customer):
+        return customer.user.first_name
+
+    @admin.display(description='نام خانوادگی')
+    def last_name(self, customer: models.Customer):
+        return customer.user.last_name
 
 
 @admin.register(models.Address)
