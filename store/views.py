@@ -7,20 +7,23 @@ from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .filterset import ProductFilterSet, ReviewFilterSet
 from .paginations import DefaultPagination
-from .models import Product, Collection, Review, CartItem, Cart
+from .models import Product, Collection, Review, CartItem, Cart, Customer
 from .viewsets import CreateRetrieveDestroyGenericViewSet
-from .serializers import (ProductSerializer,
-                          ProductCreateUpdateSerializer,
-                          CollectionSerializer,
-                          CollectionCreateUpdateSerializer,
-                          ReviewSerializer,
-                          CartItemSerializer,
-                          CartReviewItemSerializer,
-                          AddCartSerializer,
-                          UpdateCartSerializer,
-                          )
-# Create your views here.
+from .serializers import (
+    ProductSerializer,
+    ProductCreateUpdateSerializer,
+    CollectionSerializer,
+    CollectionCreateUpdateSerializer,
+    ReviewSerializer,
+    CartItemSerializer,
+    CartReviewItemSerializer,
+    AddCartSerializer,
+    UpdateCartSerializer,
+    CustomerSerializer,
+)
 
+
+# Create your views here.
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all().order_by('-updated')
@@ -105,3 +108,8 @@ class CartViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Cart.objects.filter(cart_id=self.kwargs['cart_pk']).select_related('product')
+
+
+class CustomerView(ModelViewSet):
+    queryset = Customer.objects.all()
+    serializer_class = CustomerSerializer

@@ -112,6 +112,10 @@ class CustomerAdmin(admin.ModelAdmin):
     def last_name(self, customer: models.Customer):
         return customer.user.last_name
 
+    @admin.display(description='ایمیل')
+    def email(self, customer: models.Customer):
+        return customer.user.email
+
 
 @admin.register(models.Address)
 class AddressAdmin(admin.ModelAdmin):
