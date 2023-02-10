@@ -2,14 +2,14 @@ from django.shortcuts import get_object_or_404
 from django.db.models import ProtectedError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
 from django_filters.rest_framework import DjangoFilterBackend
 from .filterset import ProductFilterSet, ReviewFilterSet
 from .paginations import DefaultPagination
-from .permisstions import CustomerUserPermission
+from .permisstions import CustomerUserPermission, CustomerHistoryPermission
 from .models import Product, Collection, Review, CartItem, Cart, Customer
 from .viewsets import CreateRetrieveDestroyGenericViewSet
 from .serializers import (
@@ -119,6 +119,10 @@ class CustomerView(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [IsAdminUser]
+
+    @action(detail=False, permission_classes=[CustomerHistoryPermission])
+    def history(self, request):
+        return Response('ok')
 
     @action(detail=False, methods=['GET', 'PUT'], permission_classes=[CustomerUserPermission])
     def me(self, request):

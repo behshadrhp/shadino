@@ -69,6 +69,9 @@ class Customer(models.Model):
         verbose_name = 'مشتری'
         verbose_name_plural = 'مشتریان'
         ordering = ['birthday']
+        permissions = [
+            ('view_history', 'can view history')
+        ]
 
 
 class Order(models.Model):
