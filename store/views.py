@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models import ProtectedError
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.response import Response
 from rest_framework import status
@@ -92,10 +93,12 @@ class CartItemViewSet(CreateRetrieveDestroyGenericViewSet):
     queryset = CartItem.objects.prefetch_related(
         'cartitem').all().order_by('-created')
     serializer_class = CartItemSerializer
+    permission_classes = [AllowAny]
 
 
 class CartViewSet(ModelViewSet):
     http_method_names = ['get', 'post', 'patch', 'delete']
+    permission_classes = [AllowAny]
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
@@ -114,6 +117,7 @@ class CartViewSet(ModelViewSet):
 class CustomerView(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
+    permission_classes = [IsAuthenticated]
 
     @action(detail=False, methods=['GET', 'PUT'])
     def me(self, request):
