@@ -1,4 +1,4 @@
-from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError
+from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError, Serializer
 from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
 
 
@@ -139,6 +139,17 @@ class OrderItemSerializer(ModelSerializer):
 
 class OrderSerializer(ModelSerializer):
     order_item = OrderItemSerializer(many=True)
+
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'order_item', 'payment_status', 'placed_at']
+        fields = ['id', 'customer', 'order_item',
+                  'payment_status', 'placed_at']
+
+
+class CreateOrderSerializer(Serializer):
+    cart_id = UUIDField()
+
+    def save(self, **kwargs):
+        customer = Customer.objects.get(user_id=self.context['user'])
+        order = Order.objects.create(customer=customer)
+        return order
