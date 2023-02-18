@@ -63,7 +63,7 @@ class Customer(models.Model):
         max_length=5, default=MEMBERSHIP_BRONZE, choices=MEMBERSHIP_CHOICE, verbose_name='نوع عضویت')
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.user.username}'
 
     class Meta:
         verbose_name = 'مشتری'
