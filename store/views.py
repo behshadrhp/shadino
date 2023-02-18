@@ -116,7 +116,7 @@ class CartViewSet(ModelViewSet):
         return Cart.objects.filter(cart_id=self.kwargs['cart_pk']).select_related('product')
 
 
-class CustomerView(ModelViewSet):
+class CustomerViewSet(ModelViewSet):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     permission_classes = [IsAdminUser]
