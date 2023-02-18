@@ -1,4 +1,5 @@
 from django.db.transaction import atomic
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError, Serializer
 from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
 
@@ -177,3 +178,20 @@ class CreateOrderSerializer(Serializer):
             cart_delete = Cart.objects.filter(pk=cart_id).delete()
 
             return order
+
+
+class ResponseOrderSerializer(ModelSerializer):
+    order_item = OrderItemSerializer(many=True, read_only=True)
+    customer = serializers.CharField(read_only=True)
+    payment_status = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'customer', 'order_item',
+                  'payment_status', 'placed_at']
+
+
+class UpdateOrderSerializer(ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ['payment_status']

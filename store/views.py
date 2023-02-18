@@ -25,6 +25,8 @@ from .serializers import (
     CustomerSerializer,
     OrderSerializer,
     CreateOrderSerializer,
+    UpdateOrderSerializer,
+    ResponseOrderSerializer,
 )
 
 
@@ -140,8 +142,9 @@ class CustomerViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    http_method_names = ['get', 'post', 'patch',
-                        'put', 'delete', 'options', 'head']
+    http_method_names = [
+        'get', 'post', 'patch', 'put', 'delete', 'options', 'head'
+    ]
 
     def get_permissions(self):
         if self.request.method in ['PUT', 'PATCH', 'DELETE']:
@@ -155,7 +158,7 @@ class OrderViewSet(ModelViewSet):
         )
         serializer.is_valid(raise_exception=True)
         order = serializer.save()
-        serializer = OrderSerializer(order)
+        serializer = ResponseOrderSerializer(order)
         return Response(serializer.data)
 
     def get_queryset(self):
@@ -169,5 +172,7 @@ class OrderViewSet(ModelViewSet):
     def get_serializer_class(self, *args, **kwargs):
         if self.request.method == 'POST':
             return CreateOrderSerializer
+        elif self.request.method in ['PUT', 'PATCH']:
+            return UpdateOrderSerializer
         else:
             return OrderSerializer
