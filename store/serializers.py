@@ -150,6 +150,13 @@ class OrderSerializer(ModelSerializer):
 class CreateOrderSerializer(Serializer):
     cart_id = UUIDField()
 
+    def validate_cart_id(self, cart_id):
+        if not CartItem.objects.filter(pk=cart_id).exists():
+            raise ValidationError('سبدی  با این شناسه وجود ندارد')
+        elif Cart.objects.filter(cart_id=cart_id).count() == 0:
+            raise ValidationError('این سبد خالی است')
+        return cart_id
+
     def save(self, **kwargs):
         with atomic():
             customer = Customer.objects.get(user_id=self.context['user'])
