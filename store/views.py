@@ -10,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from .filterset import ProductFilterSet, ReviewFilterSet
 from .paginations import DefaultPagination
 from .permisstions import CustomerUserPermission, CustomerHistoryPermission
-from .models import Product, Collection, Review, CartItem, Cart, Customer
+from .models import Product, Collection, Review, CartItem, Cart, Customer, Order
 from .viewsets import CreateRetrieveDestroyGenericViewSet
 from .serializers import (
     ProductSerializer,
@@ -23,6 +23,7 @@ from .serializers import (
     AddCartSerializer,
     UpdateCartSerializer,
     CustomerSerializer,
+    OrderSerializer,
 )
 
 
@@ -135,3 +136,8 @@ class CustomerView(ModelViewSet):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             return Response(serializer.data)
+
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
