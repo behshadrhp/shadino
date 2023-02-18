@@ -1,3 +1,4 @@
+from django.db.transaction import atomic
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError, Serializer
 from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
 
@@ -150,6 +151,22 @@ class CreateOrderSerializer(Serializer):
     cart_id = UUIDField()
 
     def save(self, **kwargs):
-        customer = Customer.objects.get(user_id=self.context['user'])
-        order = Order.objects.create(customer=customer)
-        return order
+        with atomic():
+            customer = Customer.objects.get(user_id=self.context['user'])
+            cart_id = self.validated_data['cart_id']
+
+            order = Order.objects.create(customer=customer)
+            cart_items = Cart.objects.select_related(
+                'product').filter(cart_id=cart_id)
+
+            order_items = [
+                OrderItem(
+                    order=order,
+                    product=item.product,
+                    quantity=item.quantity
+                ) for item in cart_items
+            ]
+            bulk_order_items = OrderItem.objects.bulk_create(order_items)
+            cart_delete = Cart.objects.filter(pk=cart_id).delete()
+
+            return order
