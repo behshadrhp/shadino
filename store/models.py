@@ -56,7 +56,7 @@ class Customer(models.Model):
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='نام کاربری')
     phone = PhoneNumberField(
-        unique=True, help_text='لطفا شماره همراه خود را وارد کنید', verbose_name='شماره همراه')
+        unique=True,  null=True, blank=True, help_text='لطفا شماره همراه خود را وارد کنید', verbose_name='شماره همراه')
     birthday = models.DateField(
         default=datetime.now, editable=True, verbose_name='تاریخ تولد')
     membership = models.CharField(
