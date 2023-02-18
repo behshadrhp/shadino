@@ -101,8 +101,7 @@ class CustomerAdmin(admin.ModelAdmin):
     list_per_page = 10
     search_fields = ['first_name__icontains',
                      'last_name__icontains', 'email__icontains', 'phone__icontains']
-    fields = ['first_name', 'last_name', 'email',
-              'phone', 'birthday', 'membership']
+    fields = ['user', 'phone', 'birthday', 'membership']
 
     @admin.display(description='نام')
     def first_name(self, customer: models.Customer):
