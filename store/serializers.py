@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError
-from .models import Product, Collection, Review, Cart, CartItem, Customer, Order
+from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
 
 
 class ProductSerializer(ModelSerializer):
@@ -125,7 +125,15 @@ class CustomerSerializer(ModelSerializer):
                   'birthday', 'membership', 'created']
 
 
+class OrderItemSerializer(ModelSerializer):
+    product = ProductSerializer
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product', 'quantity', 'created']
+
+
 class OrderSerializer(ModelSerializer):
+    order_item = OrderItemSerializer(many=True)
     class Meta:
         model = Order
-        fields = ['id', 'customer', 'payment_status', 'placed_at']
+        fields = ['id', 'customer', 'order_item', 'payment_status', 'placed_at']
