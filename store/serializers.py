@@ -126,10 +126,15 @@ class CustomerSerializer(ModelSerializer):
 
 
 class OrderItemSerializer(ModelSerializer):
-    product = ProductSerializer
+    product = ProductSerializer()
+    price = SerializerMethodField()
+
+    def get_price(self, orderitem: OrderItem):
+        return int(orderitem.quantity * orderitem.product.price.amount)
+
     class Meta:
         model = OrderItem
-        fields = ['id', 'product', 'quantity', 'created']
+        fields = ['id', 'product', 'quantity', 'price', 'created']
 
 
 class OrderSerializer(ModelSerializer):
