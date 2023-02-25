@@ -34,7 +34,7 @@ from .serializers import (
 # Create your views here.
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.all().order_by('-updated')
+    queryset = Product.objects.prefetch_related('images').all().order_by('-updated')
     serializer_class = ProductSerializer
     http_method_names = ['get', 'post', 'patch', 'delete']
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]

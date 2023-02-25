@@ -41,7 +41,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(
         'Product', on_delete=models.CASCADE, related_name='images', verbose_name='محصول')
-    image = models.ImageField(upload_to='store/product')
+    images = models.ImageField(upload_to='store/product')
 
 
 class Customer(models.Model):
