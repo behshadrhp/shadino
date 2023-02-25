@@ -5,6 +5,7 @@ from djmoney.models.fields import MoneyField
 from phonenumber_field.modelfields import PhoneNumberField
 from datetime import datetime
 from uuid import uuid4
+from .validator import validate_image_file
 
 
 # Create your models here.
@@ -41,7 +42,7 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(
         'Product', on_delete=models.CASCADE, related_name='images', verbose_name='محصول')
-    images = models.ImageField(upload_to='store/product')
+    images = models.ImageField(upload_to='store/product', validators=[validate_image_file])
 
 
 class Customer(models.Model):
