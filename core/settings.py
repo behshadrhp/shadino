@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     # admin panel theme
     "admin_interface",
     "colorfield",
+    # django cros headers
+    "corsheaders",
     # store app
     'store',
     # tag app
@@ -61,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = 'core.urls'
@@ -173,3 +176,9 @@ DJOSER = {
         'current_user': 'core.serializers.UserSerializer',
     }
 }
+
+# Django Cros Header
+CORS_ALLOWED_ORIGINS = [
+    'https://127.0.0.1:8001',
+    'https://localhost:8001',
+]
