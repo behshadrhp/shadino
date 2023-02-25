@@ -1,18 +1,31 @@
 from django.db.transaction import atomic
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, UUIDField, ValidationError, Serializer
-from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
+from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem, ProductImage
+
+
+class ProductImageSerializer(ModelSerializer):
+
+    def create(self, validated_data):
+        product_id = self.context['product_id']
+        product_image = ProductImage.objects.create(product_id=product_id, **validated_data)
+        return product_image
+
+    class Meta:
+        model = ProductImage
+        fields = ['image']
 
 
 class ProductSerializer(ModelSerializer):
     collection = SerializerMethodField()
+    images = ProductImageSerializer(many=True)
 
     def get_collection(self, product: Product):
         return product.collection.title
 
     class Meta:
         model = Product
-        fields = ['id',  'title', 'price', 'collection']
+        fields = ['id',  'title', 'price', 'collection', 'images']
 
 
 class ProductCreateUpdateSerializer(ModelSerializer):
