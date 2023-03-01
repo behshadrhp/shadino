@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
     path('store/', include('store.urls')),
+    path('home/', include('home.urls')),
 ]
 
 if settings.DEBUG:
