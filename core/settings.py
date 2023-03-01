@@ -186,3 +186,12 @@ CORS_ALLOWED_ORIGINS = [
     'https://127.0.0.1:8001',
     'https://localhost:8001',
 ]
+
+
+# Mail conf
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 2525
+EMAIL_USER = ''
+EMAIL_PASSWORD = ''
+DEFAULT_FROM_EMAIL = EMAIL_USER
