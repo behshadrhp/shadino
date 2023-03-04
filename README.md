@@ -1,7 +1,5 @@
 # Shadino
-This is a small shop project ...
-and a store project that I have designed with Django framework and Rest-framework API.
-
+This is a small shop project and a store that I have designed with Django framework and Rest-framework API.
 
 ### requirements install
 ```bash
