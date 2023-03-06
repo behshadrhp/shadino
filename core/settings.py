@@ -195,3 +195,7 @@ EMAIL_PORT = 2525
 EMAIL_USER = ''
 EMAIL_PASSWORD = ''
 DEFAULT_FROM_EMAIL = EMAIL_USER
+
+
+# celery conf
+CELERY_BROKER_URL = 'redis://localhost:6379'
