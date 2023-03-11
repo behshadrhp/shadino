@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.core.mail import send_mail
+from .tasks import notify_customer
 
 # Create your views here.
 
 
 def main(request):
-    send_mail('Welcome', 'Hello world i am back', 'shadino@mail.com', ['behshad.rahmanpour@gmail.com'])
+    notify_customer.delay('سلام به روی ماهت')
     return render(request, 'src/main.html')
