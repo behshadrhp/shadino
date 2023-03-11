@@ -35,9 +35,6 @@ INSTALLED_APPS = [
     'django_filters',
     # django money
     'djmoney',
-    # admin panel theme
-    "admin_interface",
-    "colorfield",
     # django cros headers
     "corsheaders",
     # store app
