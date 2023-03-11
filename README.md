@@ -1,7 +1,7 @@
 # Shadino
 This is a small shop project and a store that I have designed with Django framework and Rest-framework API.
 
-##### This store is completely Persianized
+##### This store is completely Persianized :)
 
 ### requirements install
 ```bash
