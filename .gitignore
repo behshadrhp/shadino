@@ -1,2 +1,37 @@
-# ignore all image in dir
+# Ignore all image media in /media/store/image
 media/
+
+# virtual env
+Pipfile
+Pipfile.lock
+
+# migartions
+core/migrations/*
+!core/migrations/__init__.py
+store/migrations/*
+!store/migrations/__init__.py
+auth/migrations/*
+!auth/migrations/__init__.py
+store_custom/migrations/*
+!store_custom/migrations/__init__.py
+like/migrations/*
+!like/migrations/__init__.py
+tag/migrations/*
+!tag/migrations/__init__.py
+home/migrations/*
+!home/migrations/__init__.py
+
+# __pycach__
+core/__pycache__/
+store/__pycache__/
+auth/__pycache__/
+store_custom/__pycache__/
+like/__pycache__/
+tag/__pycache__/
+home/__pycache__/
+
+# vscode settings
+.vscode/
+
+# Celery
+celerybeat-schedule
