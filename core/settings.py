@@ -196,3 +196,10 @@ DEFAULT_FROM_EMAIL = EMAIL_USER
 
 # celery conf
 CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BEAT_SCHEDULE = {
+    'notify_customer': {
+        'task': 'home.tasks.notify_customer',
+        'schedule': 5,
+        'args': ['همه چیز خوبه'],
+    }
+}
