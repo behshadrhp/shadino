@@ -4,6 +4,7 @@ media/
 # virtual env
 Pipfile
 Pipfile.lock
+env/
 
 # migartions
 core/migrations/*
