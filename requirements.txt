@@ -6,7 +6,9 @@ django-phonenumber-field==7.0.1
 djoser==2.1.0
 drf-nested-routers==0.93.4
 flower==1.2.0
+locust==2.15.1
 mysqlclient==2.1.1
+phonenumbers==8.13.7
 pillow==9.3.0
 pip-chill==1.0.1
 py3dns==3.2.1
